@@ -12,6 +12,7 @@ import me.alanton.carshopcrm.service.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -45,6 +46,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public UserResponse createUser(UserRequest userRequest) {
         if (userRepository.existsByEmail(userRequest.email())) {
             throw new BusinessException(BusinessExceptionReason.USER_IS_ALREADY_EXIST);
@@ -63,6 +65,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public UserResponse updateUser(UUID id, UserRequest userRequest) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new BusinessException(BusinessExceptionReason.USER_NOT_FOUND));
@@ -76,6 +79,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void deleteUser(UUID id) {
         if (!userRepository.existsById(id)) {
             throw new BusinessException(BusinessExceptionReason.USER_NOT_FOUND);
@@ -85,6 +89,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void enableUser(UUID id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new BusinessException(BusinessExceptionReason.USER_NOT_FOUND));
@@ -95,6 +100,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void disableUser(UUID id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new BusinessException(BusinessExceptionReason.USER_NOT_FOUND));
