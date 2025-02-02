@@ -10,5 +10,5 @@ import org.mapstruct.MappingConstants;
         uses = {RoleMapper.class}
 )
 public interface UserMapper {
-    UserResponse userToUserResponse(User user);
+    UserResponse toUserResponse(User user);
 }
