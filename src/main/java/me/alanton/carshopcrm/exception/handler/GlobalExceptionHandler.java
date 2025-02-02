@@ -67,7 +67,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @Override
-    @ExceptionHandler
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         final List<InvalidParameterResponse> invalidParameter =
                 ex.getBindingResult().getFieldErrors().stream()
