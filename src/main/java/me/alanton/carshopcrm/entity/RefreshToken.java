@@ -19,7 +19,7 @@ import java.time.Instant;
 @Entity
 @Table(name = "refresh_token")
 public class RefreshToken extends BaseEntity {
-    @Column(name = "token", nullable = false)
+    @Column(name = "token", unique = true, nullable = false)
     private String token;
 
     @ManyToOne(optional = false)
