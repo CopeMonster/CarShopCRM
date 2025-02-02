@@ -7,6 +7,7 @@ import me.alanton.carshopcrm.entity.Role;
 import me.alanton.carshopcrm.entity.User;
 import me.alanton.carshopcrm.exception.impl.BusinessException;
 import me.alanton.carshopcrm.exception.impl.BusinessExceptionReason;
+import me.alanton.carshopcrm.mapper.RoleMapper;
 import me.alanton.carshopcrm.mapper.UserMapper;
 import me.alanton.carshopcrm.repository.RoleRepository;
 import me.alanton.carshopcrm.repository.UserRepository;
@@ -16,8 +17,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -25,6 +28,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final RoleRepository roleRepository;
+    private final RoleMapper roleMapper;
 
     @Override
     public UserResponse getUserById(UUID id) {
@@ -59,12 +63,24 @@ public class UserServiceImpl implements UserService {
         Role userRole = roleRepository.findByName("USER")
                 .orElseThrow(() -> new BusinessException(BusinessExceptionReason.ROLE_NOT_FOUND));
 
+        Set<Role> roles = new HashSet<>();
+
+        if (userRequest.roles() != null && !userRequest.roles().isEmpty()) {
+             roles = userRequest.roles().stream()
+                    .map(roleRequest ->
+                            roleRepository.findByName(roleRequest.name())
+                                    .orElseThrow(() -> new BusinessException(BusinessExceptionReason.ROLE_NOT_FOUND)))
+                    .collect(Collectors.toSet());
+        }
+
+        roles.add(userRole);
+
         User user = User.builder()
                 .email(userRequest.email())
                 .firstname(userRequest.firstname())
                 .lastname(userRequest.lastname())
                 .password(userRequest.password())
-                .roles(Set.of(userRole))
+                .roles(roles)
                 .build();
 
         userRepository.save(user);
