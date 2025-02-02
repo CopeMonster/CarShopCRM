@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 public class RoleInitializer implements CommandLineRunner {
     private final RoleService roleService;
     private final String[] DEFAULT_ROLES = {
+            "USER",
             "SYS_ADMIN",
             "ADMIN",
             "OPERATOR",
