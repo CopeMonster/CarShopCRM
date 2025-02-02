@@ -9,3 +9,13 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+application:
+  auth:
+    access:
+      secret: ${ACCESS_SECRET}
+      expiration-time: ${ACCESS_EXPIRATION_TIME}
+    refresh:
+      secret: ${REFRESH_SECRET}
+      expiration-time: ${REFRESH_EXPIRATION_TIME}
+
+
