@@ -25,7 +25,7 @@ public class UserRepositoryTests {
     }
 
     @Test
-    @DisplayName("Test get by id functionality")
+    @DisplayName("Test find by id functionality")
     public void givenSavedUser_whenFindById_thenReturnUser() {
         // given
         User user1 = User.builder()
@@ -47,7 +47,7 @@ public class UserRepositoryTests {
     }
 
     @Test
-    @DisplayName("Test get by email functionality")
+    @DisplayName("Test find by email functionality")
     public void givenSavedUser_whenFindByEmail_thenReturnUser() {
         // given
         User user1 = User.builder()
@@ -68,7 +68,7 @@ public class UserRepositoryTests {
     }
 
     @Test
-    @DisplayName("Test not existing get by email functionality")
+    @DisplayName("Test not existing find by email functionality")
     public void givenNotExistingUser_whenFindByEmail_thenReturnUser() {
         // given
         User user1 = User.builder()
@@ -87,7 +87,7 @@ public class UserRepositoryTests {
     }
 
     @Test
-    @DisplayName("Test get all users with pagination")
+    @DisplayName("Test find all users with pagination")
     public void givenThreeSavedUsers_whenFindAll_thenReturnPageWithUsers() {
         // given
         User user1 = User.builder()
