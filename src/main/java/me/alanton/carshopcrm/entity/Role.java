@@ -6,6 +6,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.springframework.security.core.GrantedAuthority;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "role")
-public class Role extends BaseEntity {
+public class Role extends BaseEntity implements GrantedAuthority {
     @Column(name = "name", unique = true, nullable = false)
     private String name;
 
@@ -29,5 +30,10 @@ public class Role extends BaseEntity {
     public Role(String name) {
         this.name = name;
         users = new ArrayList<>();
+    }
+
+    @Override
+    public String getAuthority() {
+        return name;
     }
 }
