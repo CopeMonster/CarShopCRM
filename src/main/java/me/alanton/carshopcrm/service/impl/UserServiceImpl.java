@@ -3,10 +3,12 @@ package me.alanton.carshopcrm.service.impl;
 import lombok.RequiredArgsConstructor;
 import me.alanton.carshopcrm.dto.request.UserRequest;
 import me.alanton.carshopcrm.dto.response.UserResponse;
+import me.alanton.carshopcrm.entity.Role;
 import me.alanton.carshopcrm.entity.User;
 import me.alanton.carshopcrm.exception.impl.BusinessException;
 import me.alanton.carshopcrm.exception.impl.BusinessExceptionReason;
 import me.alanton.carshopcrm.mapper.UserMapper;
+import me.alanton.carshopcrm.repository.RoleRepository;
 import me.alanton.carshopcrm.repository.UserRepository;
 import me.alanton.carshopcrm.service.UserService;
 import org.springframework.data.domain.Page;
@@ -14,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Set;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -21,6 +24,7 @@ import java.util.UUID;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final RoleRepository roleRepository;
 
     @Override
     public UserResponse getUserById(UUID id) {
@@ -52,11 +56,15 @@ public class UserServiceImpl implements UserService {
             throw new BusinessException(BusinessExceptionReason.USER_IS_ALREADY_EXIST);
         }
 
+        Role userRole = roleRepository.findByName("USER")
+                .orElseThrow(() -> new BusinessException(BusinessExceptionReason.ROLE_NOT_FOUND));
+
         User user = User.builder()
                 .email(userRequest.email())
                 .firstname(userRequest.firstname())
                 .lastname(userRequest.lastname())
                 .password(userRequest.password())
+                .roles(Set.of(userRole))
                 .build();
 
         userRepository.save(user);
