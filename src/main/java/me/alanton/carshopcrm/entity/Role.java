@@ -6,6 +6,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import me.alanton.carshopcrm.entity.base.BaseEntity;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.ArrayList;

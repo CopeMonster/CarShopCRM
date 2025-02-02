@@ -1,4 +1,4 @@
-package me.alanton.carshopcrm.entity;
+package me.alanton.carshopcrm.entity.base;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -29,7 +29,7 @@ public class BaseEntity implements Serializable {
     private boolean enabled = true;
 
     @CreatedDate
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @LastModifiedDate

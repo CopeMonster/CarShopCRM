@@ -3,12 +3,11 @@ package me.alanton.carshopcrm.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import me.alanton.carshopcrm.entity.base.BaseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @Setter
@@ -40,6 +39,9 @@ public class User extends BaseEntity implements UserDetails {
     @Builder.Default
     private Set<Role> roles = new HashSet<>();
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RefreshToken> refreshTokens = new ArrayList<>();
+
     public User(
             String email,
             String firstname,
@@ -50,6 +52,7 @@ public class User extends BaseEntity implements UserDetails {
         this.lastname = lastname;
         this.password = password;
         this.roles = new HashSet<>();
+        this.refreshTokens = new ArrayList<>();
     }
 
     @Override
